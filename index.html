@@ -3,113 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>زارا خليل — صانعة محتوى</title>
+<title>زارا خليل — تجربة بصرية</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap');
+<script src="https://unpkg.com/split-type"></script> <style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-  --ink: #0a0a08;
-  --cream: #f5f0e8;
-  --accent: #c8773a;
-  --accent2: #3a6e8f;
-  --muted: #8a8578;
-  --light: #ede8df;
+  --ink: #0d0d0d;
+  --cream: #f9f5f0;
+  --accent: #d4a373; /* لون ترابي أرقى */
+  --accent-dark: #a67c52;
+  --white: #ffffff;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
 body {
   font-family: 'Tajawal', sans-serif;
-  background: var(--ink); color: var(--cream);
-  overflow-x: hidden; cursor: none; direction: rtl;
+  background: var(--cream); color: var(--ink);
+  overflow-x: hidden; direction: rtl; transition: background-color 0.8s ease;
 }
 
-/* مؤشر مخصص */
+/* مؤشر مخصص متطور */
 #cursor {
-  position:fixed; top:0; left:0; width:10px; height:10px; background:var(--accent);
-  border-radius:50%; pointer-events:none; z-index:9999;
-  mix-blend-mode:difference; will-change: transform;
+  position:fixed; top:0; left:0; width:8px; height:8px; background:var(--accent);
+  border-radius:50%; pointer-events:none; z-index:10000;
 }
 #cursor-ring {
-  position:fixed; top:0; left:0; width:36px; height:36px;
-  border:1px solid rgba(200,119,58,.5); border-radius:50%;
-  pointer-events:none; z-index:9998; will-change: transform;
+  position:fixed; top:0; left:0; width:40px; height:40px;
+  border:1px solid var(--accent); border-radius:50%;
+  pointer-events:none; z-index:9999; transition: transform 0.1s ease-out;
 }
 
-/* حبوب الفيلم */
-.grain {
-  position:fixed; inset:0; z-index:500; pointer-events:none; opacity:.04;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* خلفية الحبوب وتأثير الضوضاء */
+.noise-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
 }
 
-/* القائمة */
+/* القائمة العلوية */
 nav {
-  position:fixed; top:0; right:0; left:0; z-index:1000;
+  position:fixed; top:0; width:100%; z-index:1000;
   display:flex; justify-content:space-between; align-items:center;
-  padding:1.4rem 3rem; mix-blend-mode:difference;
+  padding:2rem 5%; mix-blend-mode: difference;
 }
-.nav-logo { font-family:'Amiri',serif; font-size:1.5rem; font-weight:700; color:var(--cream); text-decoration:none; }
-.nav-links { display:flex; gap:2rem; list-style:none; }
-.nav-links a { color:var(--cream); text-decoration:none; font-size:.88rem; opacity:.7; transition:opacity .2s; }
-.nav-links a:hover { opacity:1; }
+.nav-logo { font-family:'Amiri', serif; font-size:1.8rem; font-weight:700; color:var(--cream); text-decoration:none; letter-spacing: -1px;}
+.nav-links { display:flex; gap:3rem; list-style:none; }
+.nav-links a { 
+    color:var(--cream); text-decoration:none; font-size:.9rem; font-weight: 500;
+    text-transform: uppercase; position: relative;
+}
+.nav-links a::after {
+    content: ''; position: absolute; bottom: -5px; right: 0; width: 0%; height: 1px;
+    background: var(--accent); transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width: 100%; }
 
-/* شريط التمرير */
-.marquee-strip {
-  background:var(--accent); padding:.6rem 0; overflow:hidden;
-  position:fixed; bottom:0; left:0; right:0; z-index:100;
+/* قسم البطل - Hero */
+#hero { 
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--ink); color: var(--cream); overflow: hidden;
 }
-.marquee-inner {
-  display:flex; gap:3rem; width:max-content;
-  animation:mar-rtl 30s linear infinite;
+.hero-content { text-align: center; z-index: 10; }
+.hero-title {
+    font-family: 'Amiri', serif; font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.85; margin-bottom: 2rem; perspective: 1000px;
 }
-@keyframes mar-rtl { 
-    0% { transform: translateX(0); }
-    100% { transform: translateX(33.33%); } /* تصحيح القيمة لضمان الاستمرارية */
-}
-.marquee-item { font-family:'Tajawal',sans-serif; font-size:.82rem; color:var(--ink); white-space:nowrap; font-weight:700; }
+.char { display: inline-block; transform: translateY(100%); }
 
-/* ═══ البطل (Hero) ═══ */
-#hero { min-height:250vh; background:var(--ink); position:relative; }
-.hero-sticky {
-  position:sticky; top:0; height:100vh;
-  display:flex; flex-direction:column; justify-content:center; align-items:flex-end;
-  padding:0 8vw; overflow:hidden;
+/* قسم الإحصائيات - Glass Card */
+#stats { 
+    padding: 15vh 10%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+    background: var(--ink);
 }
-.wavy-item {
-  font-family:'Amiri',serif; font-size:clamp(3rem,9vw,10rem); font-weight:700;
-  line-height:.9; white-space:nowrap; color:var(--cream); will-change:transform;
+.stat-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    padding: 3rem 1.5rem; border-radius: 20px; text-align: center;
+    backdrop-filter: blur(10px); transition: 0.4s;
 }
-.wavy-item.accent { color:var(--accent); font-style:italic; }
-.wavy-item.outline { -webkit-text-stroke:1px var(--cream); color:transparent; }
+.stat-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-10px); border-color: var(--accent); }
+.stat-num { font-family: 'Amiri', serif; font-size: 4rem; color: var(--accent); display: block; margin-bottom: 0.5rem; }
+.stat-label { font-size: 0.9rem; letter-spacing: 1px; color: var(--cream); opacity: 0.6; }
 
-/* ═══ إحصائيات ═══ */
-#stats { background:var(--accent); padding:10vh 6vw; display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; }
-.stat-num { font-family:'Amiri',serif; font-size:clamp(2.5rem,5vw,5rem); font-weight:700; color:var(--cream); direction: ltr; }
-
-/* ═══ المشاريع ═══ */
-.card-inner {
-  width:460px; max-width:85vw; border-radius:16px; padding:2.5rem;
-  position:relative; overflow:hidden; text-align:right;
+/* قسم المقالات - Reveal Effect */
+#articles { padding: 15vh 10%; background: var(--cream); }
+.section-title { font-family: 'Amiri', serif; font-size: 4rem; margin-bottom: 4rem; position: relative; }
+.articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+.article-item { cursor: pointer; }
+.img-container {
+    width: 100%; aspect-ratio: 4/5; overflow: hidden; border-radius: 4px;
+    margin-bottom: 1.5rem; position: relative;
 }
-.card-inner.c1 { background:#e8ddd0; color:#2a2520; }
-.card-inner.c2 { background:#c4b49a; color:#1a1510; }
-.card-inner.c3 { background:#3a6e8f; color:#e8f0f5; }
-.card-inner.c4 { background:#c8773a; color:#2a1800; }
+.article-item img { 
+    width: 100%; height: 100%; object-fit: cover; 
+    filter: grayscale(100%); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.article-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
+.article-info h3 { font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
+.article-info p { opacity: 0.7; line-height: 1.6; }
 
-/* ═══ المقالات ═══ */
-#articles { padding:10vh 6vw; background: var(--cream); color: var(--ink); }
-.articles-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top: 3rem;}
-.article-card { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: 0.3s; border: 1px solid rgba(0,0,0,0.05); }
-.article-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-.article-img-wrap img { width: 100%; height: 200px; object-fit: cover; }
-.article-card-body { padding: 1.5rem; }
+/* شريط الماركي المتحرك */
+.marquee {
+    padding: 2rem 0; background: var(--accent); color: var(--ink);
+    font-weight: 900; font-size: 1.2rem; overflow: hidden; white-space: nowrap;
+}
+.marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
 
-@media(max-width:900px){
-  #stats { grid-template-columns: repeat(2,1fr); }
-  .articles-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
+@keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(50%); }
+}
+
+@media(max-width: 900px) {
+    .articles-grid { grid-template-columns: 1fr; }
+    #stats { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
 }
 </style>
 </head>
@@ -117,155 +126,158 @@ nav {
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
-<div class="grain"></div>
+<div class="noise-overlay"></div>
 
 <nav>
-  <a href="#hero" class="nav-logo">ز.خ</a>
+  <a href="#" class="nav-logo">زارا خليل</a>
   <ul class="nav-links">
-    <li><a href="#projects">أعمالي</a></li>
-    <li><a href="#about">عني</a></li>
-    <li><a href="#articles">مقالاتي</a></li>
-    <li><a href="#contact">تواصل</a></li>
+    <li><a href="#hero">الرئيسية</a></li>
+    <li><a href="#stats">إنجازات</a></li>
+    <li><a href="#articles">المدونة</a></li>
   </ul>
 </nav>
 
 <section id="hero">
-  <div class="hero-sticky">
-    <p class="hero-eyebrow" id="hero-eyebrow">زارا خليل — منذ ٢٠١٩</p>
-    <div class="wavy-block">
-      <div class="wavy-item">مبدعة</div>
-      <div class="wavy-item accent">وصاحبة رؤية</div>
-      <div class="wavy-item outline">راويةُ قصص</div>
-      <div class="wavy-item accent">بالقلب.</div>
-    </div>
-    <p class="hero-sub" id="hero-sub" style="margin-top: 2rem; max-width: 400px; color: var(--muted);">أصنع محتوى يُحرّك المشاعر بنيّة صادقة وجماليات حقيقية.</p>
+  <div class="hero-content">
+    <h1 class="hero-title" id="split-text">أصنعُ عوالمَ<br><span style="color:var(--accent)">مُتخيلة.</span></h1>
+    <p class="hero-sub" style="font-size: 1.2rem; opacity: 0.8;">رؤية إبداعية تتجاوز الحدود الرقمية</p>
   </div>
 </section>
 
 <section id="stats">
-  <div class="stat-item">
-    <span class="stat-num" data-target="4.2" data-suffix="م">٠</span>
-    <span class="stat-label">مليون متابع</span>
+  <div class="stat-card">
+    <span class="stat-num" data-target="4.2" data-suffix="M">٠</span>
+    <span class="stat-label">متابع شغوف</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-num" data-target="80" data-suffix="+">٠</span>
-    <span class="stat-label">شراكة تسويقية</span>
+  <div class="stat-card">
+    <span class="stat-num" data-target="85" data-suffix="+">٠</span>
+    <span class="stat-label">قصة نجاح</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-num" data-target="12">٠</span>
-    <span class="stat-label">جائزة دولية</span>
+  <div class="stat-card">
+    <span class="stat-num" data-target="15">٠</span>
+    <span class="stat-label">جائزة تصميم</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-num" data-target="30" data-suffix="+">٠</span>
-    <span class="stat-label">دولة حول العالم</span>
+  <div class="stat-card">
+    <span class="stat-num" data-target="20" data-suffix="+">٠</span>
+    <span class="stat-label">دولة زرتها</span>
   </div>
 </section>
 
 <section id="articles">
-    <h2 style="font-family: 'Amiri'; font-size: 3rem;">مقالات <em>مختارة</em></h2>
+    <h2 class="section-title">فكرٌ <em>منشور</em></h2>
     <div class="articles-grid">
-        <a href="#" class="article-card">
-            <div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500" alt=""></div>
-            <div class="article-card-body">
-                <h3 style="font-family: 'Amiri'; margin-bottom: 1rem;">جيل يبحث عن معنى في عصر الفوضى</h3>
-                <p style="font-size: 0.9rem; opacity: 0.8;">رحلة في عقل الجيل Z وما يريده حقًا من العالم الرقمي.</p>
+        <div class="article-item">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800" alt="Article 1">
             </div>
-        </a>
-        <a href="#" class="article-card">
-            <div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=500" alt=""></div>
-            <div class="article-card-body">
-                <h3 style="font-family: 'Amiri'; margin-bottom: 1rem;">فن التوقف والمساحة الفارغة</h3>
-                <p style="font-size: 0.9rem; opacity: 0.8;">كيف تصبح المساحة الفارغة هي الإبداع بحد ذاته.</p>
+            <div class="article-info">
+                <h3>سيكولوجية الضوء</h3>
+                <p>كيف نستخدم الظلال لصناعة دراما بصرية في المحتوى الرقمي.</p>
             </div>
-        </a>
-        <a href="#" class="article-card">
-            <div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500" alt=""></div>
-            <div class="article-card-body">
-                <h3 style="font-family: 'Amiri'; margin-bottom: 1rem;">السفر وحيدة: ما لا يخبرك به أحد</h3>
-                <p style="font-size: 0.9rem; opacity: 0.8;">الحقيقة الكاملة عن التجوال في ١٨ دولة دون فلاتر.</p>
+        </div>
+        <div class="article-item">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800" alt="Article 2">
             </div>
-        </a>
+            <div class="article-info">
+                <h3>بساطة التعقيد</h3>
+                <p>لماذا تبدو التصاميم البسيطة هي الأصعب في التنفيذ دائماً؟</p>
+            </div>
+        </div>
+        <div class="article-item">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800" alt="Article 3">
+            </div>
+            <div class="article-info">
+                <h3>عدسة المستقبل</h3>
+                <p>تأثير الذكاء الاصطناعي على مفهوم الأصالة في التصوير.</p>
+            </div>
+        </div>
     </div>
 </section>
 
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <span class="marquee-item">صناعة محتوى ✦</span>
-    <span class="marquee-item">رؤية بصرية ✦</span>
-    <span class="marquee-item">إبداع رقمي ✦</span>
-    <span class="marquee-item">صناعة محتوى ✦</span>
-    <span class="marquee-item">رؤية بصرية ✦</span>
-    <span class="marquee-item">إبداع رقمي ✦</span>
+<div class="marquee">
+  <div class="marquee-content">
+    ✦ إبداع بلا حدود ✦ تجربة بصرية فريدة ✦ زارا خليل ✦ تصميم محتوى ✦ إبداع بلا حدود ✦ تجربة بصرية فريدة ✦ زارا خليل ✦ تصميم محتوى ✦
   </div>
 </div>
 
 <script>
-// 1. المؤشر المخصص المحسن
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-document.addEventListener('mousemove', e => {
-  const x = e.clientX;
-  const y = e.clientY;
-  gsap.to(cursor, { x: x, y: y, duration: 0.1 });
-  gsap.to(ring, { x: x - 13, y: y - 13, duration: 0.3 });
-});
-
-// 2. تفعيل GSAP
 gsap.registerPlugin(ScrollTrigger);
 
-// 3. حركة النصوص المتموجة (Hero)
-const wavyItems = document.querySelectorAll('.wavy-item');
-gsap.from(wavyItems, {
-  y: 100, opacity: 0, duration: 1, stagger: 0.2, ease: "power4.out"
+// 1. المؤشر المخصص الناعم
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+
+document.addEventListener('mousemove', (e) => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+    gsap.to(ring, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.15 });
 });
 
+// 2. تحريك النصوص عند التحميل (Title Animation)
+const split = new SplitType('#split-text', { types: 'chars' });
+gsap.from(split.chars, {
+    y: 100,
+    opacity: 0,
+    stagger: 0.05,
+    duration: 1.5,
+    ease: "power4.out",
+});
+
+// 3. تغيير لون الخلفية عند التمرير
 ScrollTrigger.create({
-  trigger: "#hero",
-  start: "top top",
-  end: "bottom top",
-  scrub: 1,
-  onUpdate: self => {
-    const p = self.progress;
-    wavyItems.forEach((el, i) => {
-      const xMove = Math.sin(p * 5 + i) * 100;
-      gsap.to(el, { x: xMove, duration: 0.5, ease: "power2.out" });
-    });
-  }
+    trigger: "#articles",
+    start: "top 50%",
+    onEnter: () => gsap.to("body", { backgroundColor: "#f9f5f0", color: "#0d0d0d" }),
+    onLeaveBack: () => gsap.to("body", { backgroundColor: "#0d0d0d", color: "#f9f5f0" })
 });
 
-// 4. عداد الإحصائيات (تصحيح الأرقام العربية)
-const arDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-function toArabic(n) {
-  return n.toString().replace(/\d/g, d => arDigits[d]);
-}
+// 4. عداد الأرقام المطور
+const toAr = (n) => n.toLocaleString('ar-EG');
 
 document.querySelectorAll('.stat-num').forEach(el => {
-  const target = parseFloat(el.dataset.target);
-  const suffix = el.dataset.suffix || '';
-  
-  ScrollTrigger.create({
-    trigger: el,
-    start: "top 85%",
-    onEnter: () => {
-      gsap.to({val: 0}, {
-        val: target,
-        duration: 2,
-        onUpdate: function() {
-          let currentVal = this.targets()[0].val;
-          el.innerText = toArabic(currentVal.toFixed(target % 1 === 0 ? 0 : 1)) + suffix;
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    
+    ScrollTrigger.create({
+        trigger: el,
+        start: "top 90%",
+        onEnter: () => {
+            gsap.to(el, {
+                innerText: target,
+                duration: 2.5,
+                ease: "power2.out",
+                snap: { innerText: 0.1 },
+                onUpdate: function() {
+                    el.innerText = toAr(parseFloat(el.innerText)) + suffix;
+                }
+            });
         }
-      });
-    }
-  });
+    });
 });
 
-// 5. تأثير ظهور المقالات
-gsap.from(".article-card", {
-  scrollTrigger: {
-    trigger: "#articles",
-    start: "top 70%"
-  },
-  y: 50, opacity: 0, duration: 1, stagger: 0.2
+// 5. تأثير ظهور الصور (Reveal)
+document.querySelectorAll('.img-container').forEach(container => {
+    gsap.from(container, {
+        scrollTrigger: {
+            trigger: container,
+            start: "top 80%",
+        },
+        clipPath: "inset(100% 0% 0% 0%)",
+        duration: 1.2,
+        ease: "power3.inOut"
+    });
+});
+
+// 6. حركة ناعمة للسكروول (Parallax خفيف)
+gsap.to(".hero-content", {
+    scrollTrigger: {
+        trigger: "#hero",
+        start: "top top",
+        scrub: true
+    },
+    y: 200,
+    opacity: 0
 });
 </script>
 
