@@ -3,157 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>زارا خليل — صانعة محتوى</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<title>بورتفوليو مسوق محتوى</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Amiri:wght@400;700&display=swap');
-
-:root {
-  --ink: #0a0a08;
-  --cream: #f5f0e8;
-  --accent: #c8773a;
-  --muted: #8a8578;
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #0f172a;
+    color: #fff;
+    overflow-x: hidden;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Tajawal';
-  background:var(--ink);
-  color:var(--cream);
-  overflow-x:hidden;
+/* Navbar */
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(15,23,42,0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
 }
 
-/* NAV */
-nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  padding:1.5rem 3rem;
-  display:flex;
-  justify-content:space-between;
-  z-index:1000;
+nav a {
+    color: #38bdf8;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.nav-links{
-  display:flex;
-  gap:2rem;
-  list-style:none;
+/* Hero */
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
 }
 
-.nav-links a{
-  color:#fff;
-  text-decoration:none;
-  opacity:.7;
+.typing {
+    font-size: 32px;
+    border-left: 3px solid #38bdf8;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-/* HERO */
-#hero{
-  min-height:200vh;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  padding:0 8vw;
+/* Sections */
+section {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: auto;
 }
 
-.wavy-item{
-  font-family:'Amiri';
-  font-size:clamp(3rem,8vw,9rem);
-  line-height:.9;
-  opacity:0;
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 20px;
 }
 
-#hero-sub{
-  margin-top:2rem;
-  color:var(--muted);
-  max-width:400px;
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: 0.6s;
 }
 
-/* STATS */
-#stats{
-  background:var(--accent);
-  padding:8vh 6vw;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
+.card:hover {
+    transform: scale(1.05);
+    background: #334155;
 }
 
-.stat-num{
-  font-size:3rem;
+/* Reveal */
+.show {
+    transform: translateY(0);
+    opacity: 1;
 }
 
-/* ARTICLES */
-#articles{
-  padding:10vh 6vw;
-  background:#f5f0e8;
-  color:#000;
+/* Moving bar */
+.marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    background: #020617;
+    padding: 10px 0;
 }
 
-.articles-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:2rem;
-  margin-top:2rem;
+.marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: move 10s linear infinite;
 }
 
-.article-card{
-  background:#fff;
-  padding:1.5rem;
-  border-radius:12px;
-  transition:.3s;
-  transform-style:preserve-3d;
+@keyframes move {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
 }
 
-.article-card:hover{
-  transform:translateY(-10px) scale(1.02);
-  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+/* Contact */
+.contact input, .contact textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
 }
 
-/* CONTACT */
-#contact{
-  padding:10vh 6vw;
-}
-
-input,textarea{
-  width:100%;
-  padding:1rem;
-  margin-bottom:1rem;
-  background:#111;
-  border:none;
-  color:#fff;
-}
-
-/* MARQUEE */
-.marquee-strip{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:var(--accent);
-  overflow:hidden;
-}
-
-.marquee-inner{
-  display:flex;
-  gap:3rem;
-  width:max-content;
-  animation:marqueeMove 20s linear infinite;
-}
-
-.marquee-item{
-  padding:.6rem;
-  color:#000;
-  font-weight:bold;
-}
-
-@keyframes marqueeMove{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
-}
-
-@media(max-width:900px){
-  .articles-grid{grid-template-columns:1fr;}
-  #stats{grid-template-columns:repeat(2,1fr);}
+button {
+    background: #38bdf8;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
 }
 </style>
 </head>
@@ -161,119 +127,69 @@ input,textarea{
 <body>
 
 <nav>
-  <div>ز.خ</div>
-  <ul class="nav-links">
-    <li><a href="#articles">مقالاتي</a></li>
-    <li><a href="#contact">تواصل</a></li>
-  </ul>
+<a href="#home">الرئيسية</a>
+<a href="#about">من أنا</a>
+<a href="#projects">أعمالي</a>
+<a href="#contact">تواصل</a>
 </nav>
 
-<section id="hero">
-  <div>
-    <div class="wavy-item">مبدعة</div>
-    <div class="wavy-item">وصاحبة رؤية</div>
-    <div class="wavy-item">راوية قصص</div>
+<div class="hero" id="home">
+<h1 class="typing" id="typing"></h1>
+<p>أحوّل الكلمات إلى تأثير… والمحتوى إلى نتائج 🚀</p>
+</div>
 
-    <p id="hero-sub"></p>
-  </div>
+<div class="marquee">
+<span>🚀 تسويق محتوى - كتابة إبداعية - إدارة سوشيال ميديا - تحليل بيانات 🚀</span>
+</div>
+
+<section id="about">
+<h2>من أنا</h2>
+<p>مسوق محتوى متخصص في بناء الهوية الرقمية، كتابة النصوص المؤثرة، وتحليل سلوك الجمهور لزيادة التفاعل والمبيعات.</p>
 </section>
 
-<section id="stats">
-  <div><div class="stat-num">٤.٢م</div><div>متابع</div></div>
-  <div><div class="stat-num">٨٠+</div><div>شراكة</div></div>
-  <div><div class="stat-num">١٢</div><div>جائزة</div></div>
-  <div><div class="stat-num">٣٠+</div><div>دولة</div></div>
-</section>
-
-<section id="articles">
-  <h2 style="font-family:'Amiri'; font-size:3rem;">مقالات</h2>
-
-  <div class="articles-grid">
-    <div class="article-card">مقال ١</div>
-    <div class="article-card">مقال ٢</div>
-    <div class="article-card">مقال ٣</div>
-  </div>
+<section id="projects">
+<h2>أعمالي</h2>
+<div class="cards">
+<div class="card">📌 حملة سوشيال ميديا زادت التفاعل 300%</div>
+<div class="card">📌 كتابة محتوى لمتجر إلكتروني حقق مبيعات عالية</div>
+<div class="card">📌 إدارة حساب إنستجرام من 0 إلى 50k</div>
+<div class="card">📌 تحسين SEO لموقع وزيادة الزيارات</div>
+</div>
 </section>
 
 <section id="contact">
-  <h2 style="font-family:'Amiri'; font-size:3rem;">تواصل معي</h2>
-
-  <div style="max-width:500px;">
-    <input placeholder="اسمك">
-    <input placeholder="بريدك">
-    <textarea placeholder="رسالتك"></textarea>
-    <button style="padding:1rem 2rem; background:var(--accent); border:none;">إرسال</button>
-  </div>
+<h2>تواصل معي</h2>
+<div class="contact">
+<input type="text" placeholder="اسمك">
+<input type="email" placeholder="بريدك">
+<textarea placeholder="رسالتك"></textarea>
+<button>إرسال</button>
+</div>
 </section>
 
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <span class="marquee-item">صناعة محتوى ✦</span>
-    <span class="marquee-item">إبداع ✦</span>
-    <span class="marquee-item">رؤية ✦</span>
-
-    <!-- تكرار لمنع الفراغ -->
-    <span class="marquee-item">صناعة محتوى ✦</span>
-    <span class="marquee-item">إبداع ✦</span>
-    <span class="marquee-item">رؤية ✦</span>
-  </div>
-</div>
-
 <script>
-
-// GSAP
-gsap.registerPlugin(ScrollTrigger);
-
-// Hero animation
-gsap.to(".wavy-item",{
-  y:0,
-  opacity:1,
-  stagger:0.3,
-  duration:1
-});
-
-// Typewriter عربي صحيح
-const text="أصنع محتوى يُحرّك المشاعر بنيّة صادقة وجماليات حقيقية.";
-let i=0;
-function type(){
-  if(i<=text.length){
-    document.getElementById("hero-sub").innerText=text.slice(0,i);
-    i++;
-    setTimeout(type,40);
-  }
+// Typing effect
+const text = "أنا مسوق محتوى محترف";
+let i = 0;
+function typing() {
+    if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing, 100);
+    }
 }
-type();
+typing();
 
-// Cards animation
-gsap.from(".article-card",{
-  scrollTrigger:{
-    trigger:"#articles",
-    start:"top 80%"
-  },
-  y:80,
-  opacity:0,
-  stagger:0.2
+// Scroll reveal
+const cards = document.querySelectorAll('.card');
+window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if (top < window.innerHeight - 50) {
+            card.classList.add('show');
+        }
+    });
 });
-
-// Tilt effect خفيف
-document.querySelectorAll(".article-card").forEach(card=>{
-  card.addEventListener("mousemove", e=>{
-    const rect=card.getBoundingClientRect();
-    const x=(e.clientX-rect.left)/rect.width-0.5;
-    const y=(e.clientY-rect.top)/rect.height-0.5;
-
-    card.style.transform=`
-      rotateX(${y*-6}deg)
-      rotateY(${x*6}deg)
-      translateY(-10px)
-    `;
-  });
-
-  card.addEventListener("mouseleave",()=>{
-    card.style.transform="rotateX(0) rotateY(0)";
-  });
-});
-
 </script>
 
 </body>
