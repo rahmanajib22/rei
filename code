@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Engineer Portfolio | ملف مهندس ذكاء اصطناعي</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. الألوان والمتغيرات: يمكنك تغيير الألوان من هنا بسهولة */
+        :root {
+            --bg-color: #0d1117;       /* لون الخلفية الداكن */
+            --card-bg: #161b22;        /* لون بطاقات المشاريع */
+            --main-accent: #58a6ff;    /* اللون الأزرق الأساسي (تقني) */
+            --text-white: #c9d1d9;     /* لون النصوص الأساسي */
+            --text-dim: #8b949e;       /* لون النصوص الثانوية */
+            --border-color: #30363d;   /* لون الحدود */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            font-family: 'IBM+Plex+Sans+Arabic', sans-serif;
+            line-height: 1.7;
+            text-align: right; /* محاذاة النص لليمين */
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+
+        /* 2. قسم التعريف الشخصي (Header) */
+        header { margin-bottom: 80px; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--main-accent);
+            border: 1px solid var(--main-accent);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 20px; color: #fff; }
+        .highlight { color: var(--main-accent); }
+
+        .bio { font-size: 1.1rem; color: var(--text-dim); max-width: 700px; margin-bottom: 30px; }
+
+        /* 3. قسم المهارات (Tags) */
+        .skills-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+        .skill-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        /* 4. شبكة المشاريع (Projects Grid) */
+        .section-title { 
+            font-size: 1.8rem; 
+            margin-bottom: 30px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        /* الخط الجانبي بجانب العنوان */
+        .section-title::after { content: ""; height: 1px; background: var(--border-color); flex-grow: 1; }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        /* تأثير عند تمرير الماوس فوق المشروع */
+        .project-card:hover { 
+            border-color: var(--main-accent); 
+            transform: translateY(-8px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .project-card h3 { color: var(--main-accent); margin-bottom: 15px; font-size: 1.4rem; }
+        .project-card p { font-size: 0.95rem; color: var(--text-dim); margin-bottom: 20px; }
+
+        /* 5. التذييل (Footer) */
+        footer { 
+            margin-top: 100px; 
+            padding-top: 40px; 
+            border-top: 1px solid var(--border-color); 
+            text-align: center; 
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 600px) {
+            .container { padding: 40px 15px; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="status-badge">● متاح للتدريب والعمل الحر</span>
+            
+            <h1>أهلاً، أنا <span class="highlight">مهندس ذكاء اصطناعي طموح</span></h1>
+            
+            <p class="bio">
+                طالب هندسة حاسوب أركز على تصميم وأتمتة الأنظمة الذكية المتكاملة. 
+                أعمل حالياً على تطوير حلول الذكاء الاصطناعي التوليدي (GenAI) وأنظمة الـ RAG باستخدام Python و PyTorch.
+            </p>
+
+            <div class="skills-container">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">PyTorch</span>
+                <span class="skill-tag">LLMs</span>
+                <span class="skill-tag">NLP</span>
+                <span class="skill-tag">Git</span>
+            </div>
+        </header>
+
+        <section>
+            <h2 class="section-title">أبرز المشاريع</h2>
+            
+            <div class="projects-grid">
+                
+                <a href="#" class="project-card">
+                    <h3>نظام محادثة ذكي (RAG System)</h3>
+                    <p>تطوير نظام يستطيع قراءة ملفات الـ PDF الخاصة بالجامعة والإجابة على أسئلة الطلاب بدقة باستخدام LangChain.</p>
+                    <div class="skills-container" style="margin-bottom: 0;">
+                        <span class="skill-tag">VectorDB</span>
+                        <span class="skill-tag">OpenAI API</span>
+                    </div>
+                </a>
+
+                <a href="#" class="project-card">
+                    <h3>أداة أتمتة البيانات</h3>
+                    <p>بناء خط إنتاج (Pipeline) لمعالجة البيانات الضخمة وتنظيفها تلقائياً قبل مرحلة تدريب النموذج.</p>
+                    <div class="skills-container" style="margin-bottom: 0;">
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Automation</span>
+                    </div>
+                </a>
+
+                </div>
+        </section>
+
+        <footer>
+            <p>صنع بكل حماس بواسطة مهندس ذكاء اصطناعي © 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="#" style="color: var(--main-accent); text-decoration: none;">GitHub</a> • 
+                <a href="#" style="color: var(--main-accent); text-decoration: none;">LinkedIn</a>
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
