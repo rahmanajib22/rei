@@ -3,282 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>زارا خليل — تجربة بصرية</title>
+<title>زارا خليل — صانعة محتوى</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/split-type"></script> <style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Amiri:wght@400;700&display=swap');
 
 :root {
-  --ink: #0d0d0d;
-  --cream: #f9f5f0;
-  --accent: #d4a373; /* لون ترابي أرقى */
-  --accent-dark: #a67c52;
-  --white: #ffffff;
+  --ink: #0a0a08;
+  --cream: #f5f0e8;
+  --accent: #c8773a;
+  --accent2: #3a6e8f;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Tajawal', sans-serif;
-  background: var(--cream); color: var(--ink);
-  overflow-x: hidden; direction: rtl; transition: background-color 0.8s ease;
+  margin:0;
+  font-family:'Tajawal';
+  background: var(--ink);
+  color: var(--cream);
+  overflow-x:hidden;
+  cursor:none;
 }
 
-/* مؤشر مخصص متطور */
+/* ✨ خلفية متحركة */
+.bg-glow {
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(200,119,58,0.2), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(58,110,143,0.2), transparent 40%);
+  filter: blur(80px);
+  animation: floatBg 20s infinite alternate ease-in-out;
+}
+
+@keyframes floatBg {
+  0% { transform: translateY(-50px); }
+  100% { transform: translateY(50px); }
+}
+
+/* ✨ Cursor */
 #cursor {
-  position:fixed; top:0; left:0; width:8px; height:8px; background:var(--accent);
-  border-radius:50%; pointer-events:none; z-index:10000;
-}
-#cursor-ring {
-  position:fixed; top:0; left:0; width:40px; height:40px;
-  border:1px solid var(--accent); border-radius:50%;
-  pointer-events:none; z-index:9999; transition: transform 0.1s ease-out;
-}
-
-/* خلفية الحبوب وتأثير الضوضاء */
-.noise-overlay {
-  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  width:10px;height:10px;
+  background:var(--accent);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
 }
 
-/* القائمة العلوية */
-nav {
-  position:fixed; top:0; width:100%; z-index:1000;
-  display:flex; justify-content:space-between; align-items:center;
-  padding:2rem 5%; mix-blend-mode: difference;
-}
-.nav-logo { font-family:'Amiri', serif; font-size:1.8rem; font-weight:700; color:var(--cream); text-decoration:none; letter-spacing: -1px;}
-.nav-links { display:flex; gap:3rem; list-style:none; }
-.nav-links a { 
-    color:var(--cream); text-decoration:none; font-size:.9rem; font-weight: 500;
-    text-transform: uppercase; position: relative;
-}
-.nav-links a::after {
-    content: ''; position: absolute; bottom: -5px; right: 0; width: 0%; height: 1px;
-    background: var(--accent); transition: width 0.3s ease;
-}
-.nav-links a:hover::after { width: 100%; }
-
-/* قسم البطل - Hero */
-#hero { 
-    height: 100vh; display: flex; align-items: center; justify-content: center;
-    background: var(--ink); color: var(--cream); overflow: hidden;
-}
-.hero-content { text-align: center; z-index: 10; }
-.hero-title {
-    font-family: 'Amiri', serif; font-size: clamp(4rem, 15vw, 12rem);
-    line-height: 0.85; margin-bottom: 2rem; perspective: 1000px;
-}
-.char { display: inline-block; transform: translateY(100%); }
-
-/* قسم الإحصائيات - Glass Card */
-#stats { 
-    padding: 15vh 10%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
-    background: var(--ink);
-}
-.stat-card {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-    padding: 3rem 1.5rem; border-radius: 20px; text-align: center;
-    backdrop-filter: blur(10px); transition: 0.4s;
-}
-.stat-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-10px); border-color: var(--accent); }
-.stat-num { font-family: 'Amiri', serif; font-size: 4rem; color: var(--accent); display: block; margin-bottom: 0.5rem; }
-.stat-label { font-size: 0.9rem; letter-spacing: 1px; color: var(--cream); opacity: 0.6; }
-
-/* قسم المقالات - Reveal Effect */
-#articles { padding: 15vh 10%; background: var(--cream); }
-.section-title { font-family: 'Amiri', serif; font-size: 4rem; margin-bottom: 4rem; position: relative; }
-.articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
-.article-item { cursor: pointer; }
-.img-container {
-    width: 100%; aspect-ratio: 4/5; overflow: hidden; border-radius: 4px;
-    margin-bottom: 1.5rem; position: relative;
-}
-.article-item img { 
-    width: 100%; height: 100%; object-fit: cover; 
-    filter: grayscale(100%); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.article-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
-.article-info h3 { font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
-.article-info p { opacity: 0.7; line-height: 1.6; }
-
-/* شريط الماركي المتحرك */
-.marquee {
-    padding: 2rem 0; background: var(--accent); color: var(--ink);
-    font-weight: 900; font-size: 1.2rem; overflow: hidden; white-space: nowrap;
-}
-.marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
-
-@keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(50%); }
+/* ✨ Hero */
+#hero {
+  height:200vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:right;
 }
 
-@media(max-width: 900px) {
-    .articles-grid { grid-template-columns: 1fr; }
-    #stats { grid-template-columns: repeat(2, 1fr); }
-    .nav-links { display: none; }
+.hero-content {
+  max-width:600px;
+}
+
+.wavy-item {
+  font-size:clamp(3rem,8vw,8rem);
+  font-family:'Amiri';
+  opacity:0;
+}
+
+.typewriter {
+  margin-top:2rem;
+  color:#aaa;
+  min-height:30px;
+}
+
+/* ✨ Cards 3D */
+.article-card {
+  background:#fff;
+  color:#000;
+  border-radius:16px;
+  padding:2rem;
+  transform-style: preserve-3d;
+  transition: transform .2s;
+}
+
+.articles-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:2rem;
+  padding:5rem;
+}
+
+/* ✨ زر مغناطيسي */
+.btn {
+  display:inline-block;
+  padding:1rem 2rem;
+  border:1px solid var(--accent);
+  margin-top:2rem;
+  cursor:pointer;
 }
 </style>
 </head>
+
 <body>
 
+<div class="bg-glow"></div>
 <div id="cursor"></div>
-<div id="cursor-ring"></div>
-<div class="noise-overlay"></div>
-
-<nav>
-  <a href="#" class="nav-logo">زارا خليل</a>
-  <ul class="nav-links">
-    <li><a href="#hero">الرئيسية</a></li>
-    <li><a href="#stats">إنجازات</a></li>
-    <li><a href="#articles">المدونة</a></li>
-  </ul>
-</nav>
 
 <section id="hero">
   <div class="hero-content">
-    <h1 class="hero-title" id="split-text">أصنعُ عوالمَ<br><span style="color:var(--accent)">مُتخيلة.</span></h1>
-    <p class="hero-sub" style="font-size: 1.2rem; opacity: 0.8;">رؤية إبداعية تتجاوز الحدود الرقمية</p>
+    <div class="wavy-item">مبدعة</div>
+    <div class="wavy-item">بأسلوب مختلف</div>
+    <div class="wavy-item">تروي القصة</div>
+
+    <div class="typewriter" id="type"></div>
+
+    <div class="btn" id="btn">اكتشف أكثر</div>
   </div>
 </section>
 
-<section id="stats">
-  <div class="stat-card">
-    <span class="stat-num" data-target="4.2" data-suffix="M">٠</span>
-    <span class="stat-label">متابع شغوف</span>
-  </div>
-  <div class="stat-card">
-    <span class="stat-num" data-target="85" data-suffix="+">٠</span>
-    <span class="stat-label">قصة نجاح</span>
-  </div>
-  <div class="stat-card">
-    <span class="stat-num" data-target="15">٠</span>
-    <span class="stat-label">جائزة تصميم</span>
-  </div>
-  <div class="stat-card">
-    <span class="stat-num" data-target="20" data-suffix="+">٠</span>
-    <span class="stat-label">دولة زرتها</span>
-  </div>
+<section class="articles-grid">
+  <div class="article-card">مقال ١</div>
+  <div class="article-card">مقال ٢</div>
+  <div class="article-card">مقال ٣</div>
 </section>
-
-<section id="articles">
-    <h2 class="section-title">فكرٌ <em>منشور</em></h2>
-    <div class="articles-grid">
-        <div class="article-item">
-            <div class="img-container">
-                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800" alt="Article 1">
-            </div>
-            <div class="article-info">
-                <h3>سيكولوجية الضوء</h3>
-                <p>كيف نستخدم الظلال لصناعة دراما بصرية في المحتوى الرقمي.</p>
-            </div>
-        </div>
-        <div class="article-item">
-            <div class="img-container">
-                <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800" alt="Article 2">
-            </div>
-            <div class="article-info">
-                <h3>بساطة التعقيد</h3>
-                <p>لماذا تبدو التصاميم البسيطة هي الأصعب في التنفيذ دائماً؟</p>
-            </div>
-        </div>
-        <div class="article-item">
-            <div class="img-container">
-                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800" alt="Article 3">
-            </div>
-            <div class="article-info">
-                <h3>عدسة المستقبل</h3>
-                <p>تأثير الذكاء الاصطناعي على مفهوم الأصالة في التصوير.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="marquee">
-  <div class="marquee-content">
-    ✦ إبداع بلا حدود ✦ تجربة بصرية فريدة ✦ زارا خليل ✦ تصميم محتوى ✦ إبداع بلا حدود ✦ تجربة بصرية فريدة ✦ زارا خليل ✦ تصميم محتوى ✦
-  </div>
-</div>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
 
-// 1. المؤشر المخصص الناعم
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-
-document.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
-    gsap.to(ring, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.15 });
+// Cursor
+document.addEventListener("mousemove", e => {
+  gsap.to("#cursor", {
+    x: e.clientX,
+    y: e.clientY,
+    duration:0.1
+  });
 });
 
-// 2. تحريك النصوص عند التحميل (Title Animation)
-const split = new SplitType('#split-text', { types: 'chars' });
-gsap.from(split.chars, {
-    y: 100,
-    opacity: 0,
-    stagger: 0.05,
-    duration: 1.5,
-    ease: "power4.out",
+// Hero animation
+gsap.to(".wavy-item", {
+  y:0,
+  opacity:1,
+  stagger:0.3,
+  duration:1
 });
 
-// 3. تغيير لون الخلفية عند التمرير
-ScrollTrigger.create({
-    trigger: "#articles",
-    start: "top 50%",
-    onEnter: () => gsap.to("body", { backgroundColor: "#f9f5f0", color: "#0d0d0d" }),
-    onLeaveBack: () => gsap.to("body", { backgroundColor: "#0d0d0d", color: "#f9f5f0" })
-});
+// ✍️ Typewriter
+const text = "أصنع محتوى يلمس الشعور… قبل العين.";
+let i = 0;
 
-// 4. عداد الأرقام المطور
-const toAr = (n) => n.toLocaleString('ar-EG');
+function type() {
+  if(i < text.length){
+    document.getElementById("type").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(type, 50);
+  }
+}
+type();
 
-document.querySelectorAll('.stat-num').forEach(el => {
-    const target = parseFloat(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    
-    ScrollTrigger.create({
-        trigger: el,
-        start: "top 90%",
-        onEnter: () => {
-            gsap.to(el, {
-                innerText: target,
-                duration: 2.5,
-                ease: "power2.out",
-                snap: { innerText: 0.1 },
-                onUpdate: function() {
-                    el.innerText = toAr(parseFloat(el.innerText)) + suffix;
-                }
-            });
-        }
-    });
-});
-
-// 5. تأثير ظهور الصور (Reveal)
-document.querySelectorAll('.img-container').forEach(container => {
-    gsap.from(container, {
-        scrollTrigger: {
-            trigger: container,
-            start: "top 80%",
-        },
-        clipPath: "inset(100% 0% 0% 0%)",
-        duration: 1.2,
-        ease: "power3.inOut"
-    });
-});
-
-// 6. حركة ناعمة للسكروول (Parallax خفيف)
+// 🌊 Parallax
 gsap.to(".hero-content", {
-    scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        scrub: true
-    },
-    y: 200,
-    opacity: 0
+  y: -100,
+  scrollTrigger:{
+    trigger:"#hero",
+    start:"top top",
+    scrub:1
+  }
 });
+
+// 🎴 3D tilt
+document.querySelectorAll(".article-card").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const rotateX = (y / rect.height - 0.5) * -10;
+    const rotateY = (x / rect.width - 0.5) * 10;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "rotateX(0) rotateY(0)";
+  });
+});
+
+// 🧲 Magnetic button
+const btn = document.getElementById("btn");
+
+btn.addEventListener("mousemove", e => {
+  const rect = btn.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width/2;
+  const y = e.clientY - rect.top - rect.height/2;
+
+  gsap.to(btn, {
+    x: x * 0.3,
+    y: y * 0.3,
+    duration:0.3
+  });
+});
+
+btn.addEventListener("mouseleave", () => {
+  gsap.to(btn, {x:0,y:0});
+});
+
 </script>
 
 </body>
